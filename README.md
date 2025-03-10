@@ -8,4 +8,9 @@ Automation Testing | Web | Playwright | Javascript | Cucumber | Page Object Mode
 ------------------------------------------------------------------------------------------------------------------------
 
 
+to run a specific test with tag:
+npm run scenario -- @another
+
+to run all tests:
+npm run test
 

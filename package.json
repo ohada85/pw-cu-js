@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/cucumber-js --require cucumber.js --require steps/**/*.js -f json:cucumber_report.json --publish-quiet && npm run report",
+    "scenario": "./node_modules/.bin/cucumber-js --require cucumber-js -f json:cucumber_report.json --publish-quiet --tags",
+    "test": "./node_modules/.bin/cucumber-js --require cucumber.js -f json:cucumber_report.json --publish-quiet",
     "report": "node reporter.js"
   },
   "author": "Ohad",
@@ -14,6 +15,7 @@
     "chai": "^4.3.6",
     "cucumber-html-reporter": "^5.5.0",
     "playwright": "^1.21.1",
+    "@playwright/test": "^1.46.0",
     "prettier": "^2.6.2"
   }
 }

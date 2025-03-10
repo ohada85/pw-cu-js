@@ -1,5 +1,5 @@
 const { Given, When, Then} = require('@cucumber/cucumber')
-const { LoginPage } = require('.././pages/login-page')
+const { LoginPage } = require('../../pages/sauce/login-page')
 
 // Initializing the object (loginPage) of class (LoginPage)
 const loginPage = new LoginPage()
@@ -20,7 +20,9 @@ Then('I wait for 3 seconds', async ()=> {
   await loginPage.pause()
 })
 
-Then(/^I fill the login form with "([^"]*)" and "([^"]*)"$/,async (username, password)=> {
+
+
+Then(/^I fill the login form with "(.*)" and "(.*)"$/,async (username, password)=> {
     await loginPage.submitLoginWithParameters(username, password)
   }
 )

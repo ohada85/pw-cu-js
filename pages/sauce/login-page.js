@@ -1,18 +1,15 @@
 class LoginPage {
 
   constructor() {
-
     this.url = 'https://www.saucedemo.com/';
 
     this.elements = {
       nameInput: ('#user-name'),
       passwordInput: ('#password'),
       loginButton: ('#login-button'),
-
-
-
     }
   }
+
   async navigateToLoginScreen() {
     await page.goto(this.url)
   }

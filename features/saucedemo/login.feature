@@ -7,7 +7,9 @@ Feature: Login action
       Then I should see the home page
 
     # Multiple set of Data
-    Scenario Outline: Try to login with invalid credentials
+  @selected
+
+  Scenario Outline: Try to login with invalid credentials
       Given I visit a login page
       When I fill the login form with "<username>" and "<password>"
       Then I wait for 3 seconds
