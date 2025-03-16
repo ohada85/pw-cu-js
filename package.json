@@ -5,8 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "scenario": "./node_modules/.bin/cucumber-js --require cucumber-js -f json:cucumber_report.json --publish-quiet --tags",
-    "test": "./node_modules/.bin/cucumber-js --require cucumber.js -f json:cucumber_report.json --publish-quiet",
+    "scenario": "./node_modules/.bin/cucumber-js --tags",
+    "scenario:debug": "node --inspect-brk ./node_modules/.bin/cucumber-js --tags",
+    "test": "./node_modules/.bin/cucumber-js",
+    "test:debug": "node --inspect-brk ./node_modules/.bin/cucumber-js",
     "report": "node reporter.js"
   },
   "author": "Ohad",

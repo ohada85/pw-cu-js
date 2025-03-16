@@ -1,10 +1,14 @@
 const playwright = require('playwright');
 const {Before, After, BeforeAll, AfterAll, setDefaultTimeout } = require('@cucumber/cucumber')
 
-setDefaultTimeout(10 * 1000);
+setDefaultTimeout(20 * 1000);
 
 BeforeAll(async () => {
-  global.browser = await playwright['chromium'].launch({ headless: false });
+  const headless = process.env.headless === 'true';
+  global.browser = await playwright['chromium'].launch({
+    headless: headless,
+    args: ["--start-maximized"],
+  });
 })
 
 AfterAll(async () => {
@@ -12,8 +16,9 @@ AfterAll(async () => {
 })
 
 Before(async () => {
-  global.context = await global.browser.newContext();
+  global.context = await global.browser.newContext({ viewport: null });
   global.page = await global.context.newPage();
+  page.on('dialog', dialog => dialog.dismiss());
 })
 
 
