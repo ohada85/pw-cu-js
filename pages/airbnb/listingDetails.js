@@ -26,6 +26,9 @@ class ListingDetails extends Page {
     }
   }
 
+  // page.on('dialog', dialog => dialog.dismiss()); didn't work
+  // tried with 1 second - not perfect, 2 seconds does the job
+  // given more time- find an indicator for the page is fully loaded, and then click the button if relevant (based on .count())
   async _checkAndCloseDialog() {
     try {
       await page.locator(this.elements.closeDialogButton).click({ timeout: 2000 });
@@ -49,6 +52,7 @@ class ListingDetails extends Page {
     let guests = {};
     await this.click(this.elements.guestsButton);
 
+    // adults - a must
     guests.adults = Number(await this.getText(this.elements.adultGuestsCounter));
 
     const childrenGuests = Number(await this.getText(this.elements.childrenGuestsCounter));
@@ -86,6 +90,7 @@ class ListingDetails extends Page {
         await this.click(this.elements.decreaseAdultsButton);
       }
     }
+
   }
 
   async _updateChildren(updateChildren) {
@@ -142,7 +147,7 @@ class ListingDetails extends Page {
     await this.click(this.elements.guestsButton);
   }
 
-  _updatedGlobalDates(dates) {
+  _updateGlobalDates(dates) {
     const checkinDate = new Date(dates.checkin);
     global.airbnb.checkin = checkinDate.toLocaleDateString('en-CA');
     const checkoutDate = new Date(dates.checkout);
@@ -151,6 +156,7 @@ class ListingDetails extends Page {
 
   async _checkIfDatesAreBlocked(dates) {
     const blockAtt = 'data-is-day-blocked';
+    // check both date and date+1 (some are available only for checkout)
     const isCheckingBlocked = await this.getAttribute(this.elements.dateOption(dates.checkin), blockAtt);
     const isPlusOneBlocked = await this.getAttribute(this.elements.dateOption(dates.plusOne), blockAtt);
     if (isCheckingBlocked === 'true' || isPlusOneBlocked === 'true') {
@@ -172,7 +178,7 @@ class ListingDetails extends Page {
 
     await this.click(this.elements.dateOption(dates.checkin));
     await this.click(this.elements.dateOption(dates.checkout));
-    this._updatedGlobalDates(dates);
+    this._updateGlobalDates(dates);
     return console.log('Dates updated successfully');
   }
 

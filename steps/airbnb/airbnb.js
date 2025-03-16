@@ -3,13 +3,14 @@ const { When, Then } = require('@cucumber/cucumber');
 const { Main } = require('../../pages/airbnb/main');
 const { Listings } = require('../../pages/airbnb/listings');
 const { ListingDetails } = require('../../pages/airbnb/listingDetails');
+// this.airbnb = {}; used global.airbnb instead of this.airbnb
 
 const main = new Main();
 const listings = new Listings();
 const listingDetails = new ListingDetails();
 
 
-When('user searches airbnb listings', async (table) => {
+When(/^user searches airbnb listings$/, async (table) => {
   global.airbnb = airbnbTableParser(table.hashes()[0]);
   await main.navigateToSite();
   await main.applySearchParams();
@@ -17,10 +18,10 @@ When('user searches airbnb listings', async (table) => {
 
 Then(/^"(.*)" listings page opened$/, async (destination) => {
   const expectedURL = `airbnb.com/s/${destination}`;
-  await expect(page).toHaveURL(new RegExp(`^.*${expectedURL}.*$`));
+  await expect(page).toHaveURL(new RegExp(`^.*${expectedURL}.*$`)); // check that the url contains the destination
 
   const titleLocator = await listings.getSearchHeader();
-  await expect(titleLocator).toHaveText(new RegExp(`^.*${destination}.*$`));
+  await expect(titleLocator).toHaveText(new RegExp(`^.*${destination}.*$`)); // check that the title contains the destination
 });
 
 When(/^user selects "(.*)" listing$/, async (sortType) => {
@@ -48,9 +49,9 @@ When(/^user reserves listing$/, async () => {
 });
 
 Then(/^reservation page url matchs search params$/, async () => {
-  const expectedURL = `https://www.airbnb.com/book/stays/`;
+  const expectedURL = `https://www.airbnb.com/book/stays/`; // the url is not static, so we check for the base url for offer pages
   await expect(page).toHaveURL(new RegExp(`^.*${expectedURL}.*$`))
-  const numOfAdults = `numberOfAdults=${global.airbnb.guests.adults}`;
+  const numOfAdults = `numberOfAdults=${global.airbnb.guests.adults}`; // check that the url contains the number of adults
   await expect(page).toHaveURL(new RegExp(`^.*${numOfAdults}.*$`));
 });
 

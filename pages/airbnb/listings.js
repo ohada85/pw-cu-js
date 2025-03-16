@@ -16,6 +16,7 @@ class Listings extends Page {
   }
 
   _getHighestRatedListing(texts) {
+    // Find the listing with the highest rating by comparing the reviews using regex
     return texts.reduce((max, entry) => {
       let entryRatingFound = entry.match(/reviews(\d+\.\d+)/);
       if (!entryRatingFound)
@@ -35,9 +36,9 @@ class Listings extends Page {
   }
 
   async selectListing(sortType) {
-    await page.locator(this.elements.pagesBarButton).isVisible();
-    let texts = await this.getTexts(this.elements.listingContainer);
-    await this.listenForNewPage();
+    await page.locator(this.elements.pagesBarButton).isVisible(); // Wait for the page to load
+    let texts = await this.getTexts(this.elements.listingContainer); // Get all listing texts in the first page
+    await this.listenForNewPage(); // Listen for new page to open after selecting a listing
     if (sortType === 'highest-rated') {
       const highestRated = this._getHighestRatedListing(texts);
       await this.click(`text=${highestRated}`);
